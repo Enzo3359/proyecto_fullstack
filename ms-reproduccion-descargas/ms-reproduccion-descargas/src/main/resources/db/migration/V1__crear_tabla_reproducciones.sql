@@ -1,0 +1,8 @@
+CREATE TABLE reproducciones (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    usuario_id BIGINT NOT NULL,
+    contenido_id BIGINT NOT NULL,
+    segundo_actual INT NOT NULL,
+    completado BOOLEAN NOT NULL DEFAULT FALSE,
+    ultima_vez DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
