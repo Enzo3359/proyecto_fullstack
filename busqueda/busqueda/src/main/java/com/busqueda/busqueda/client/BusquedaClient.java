@@ -1,8 +1,10 @@
 package com.busqueda.busqueda.client;
 
 import com.busqueda.busqueda.dto.ContenidoDTO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,9 +13,9 @@ public class BusquedaClient {
 
     private final RestClient restClient;
 
-    public BusquedaClient() {
+    public BusquedaClient(@Value("${ms.catalogo.url}") String catalogoUrl) {
         this.restClient = RestClient.builder()
-                .baseUrl("http://localhost:8081")
+                .baseUrl(catalogoUrl)
                 .build();
     }
 
@@ -26,6 +28,3 @@ public class BusquedaClient {
         return contenidos != null ? Arrays.asList(contenidos) : List.of();
     }
 }
-
-
-

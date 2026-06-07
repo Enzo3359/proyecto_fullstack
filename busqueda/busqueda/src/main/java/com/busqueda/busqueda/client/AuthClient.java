@@ -9,9 +9,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface AuthClient {
 
     @GetMapping("/api/v1/auth/usuarios/{id}")
-    UsuarioResponseDTO obtenerUsuario(@PathVariable Long id);
-
+    UsuarioResponseDTO obtenerUsuario(@PathVariable("id") Long id);
 }
-
-
-// recordar inicializar datos con feignclient en el package (paquete) de client
