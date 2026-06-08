@@ -2,12 +2,15 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="busqueda" />
+        <module name="catalogo" />
         <module name="suscripciones" />
+        <module name="ms-descargas" />
+        <module name="busqueda" />
       </profile>
       <profile name="Annotation profile for registroUsuario" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -26,8 +29,6 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
         <module name="ms-reproduccion" />
-        <module name="catalogo" />
-        <module name="ms-descargas" />
       </profile>
     </annotationProcessing>
   </component>
