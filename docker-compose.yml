@@ -1,35 +1,61 @@
 version: '3.8'
 
 services:
-  ms-busqueda:
-    build: ./busqueda
-    container_name: ms-busqueda
+
+  # ── Bases de datos ─────────────────────────────────────────────────────────
+
+  db-mariadb:
+    image: mariadb:11.4
+    container_name: db-mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: ""
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "yes"
     ports:
-      - "8086:8086"
+      - "3307:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./init-mariadb.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - red-fullstack
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "--silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  db-mysql:
+    image: mysql:8.4
+    container_name: db-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-mysql.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - red-fullstack
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # ── Microservicios ─────────────────────────────────────────────────────────
 
   ms-catalogo:
-    build: "./Catalogo"
+    build: ./Catalogo
     container_name: ms-catalogo
     ports:
       - "8081:8081"
-    networks:
-      - red-fullstack
-
-  ms-descargas:
-    build: ./ms-descargas
-    container_name: ms-descargas
-    ports:
-      - "8084:8084"
-    networks:
-      - red-fullstack
-
-  ms-reproduccion:
-    build: ./ms-reproduccion-descargas/ms-reproduccion-descargas
-    container_name: ms-reproduccion
-    ports:
-      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://db-mariadb:3306/catalogo_db?createDatabaseIfNotExist=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ""
+    depends_on:
+      db-mariadb:
+        condition: service_healthy
     networks:
       - red-fullstack
 
@@ -38,6 +64,53 @@ services:
     container_name: ms-registro
     ports:
       - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://db-mariadb:3306/usuarios_db?createDatabaseIfNotExist=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ""
+      MS_SUSCRIPCION_URL: http://ms-suscripciones:8085
+    depends_on:
+      db-mariadb:
+        condition: service_healthy
+    networks:
+      - red-fullstack
+
+  ms-reproduccion:
+    build: ./ms-reproduccion-descargas/ms-reproduccion-descargas
+    container_name: ms-reproduccion
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://db-mariadb:3306/durocplus_reproduccion_db?createDatabaseIfNotExist=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ""
+      MS_AUTH_URL: http://ms-registro:8082
+    depends_on:
+      db-mariadb:
+        condition: service_healthy
+      ms-registro:
+        condition: service_started
+    networks:
+      - red-fullstack
+
+  ms-descargas:
+    build: ./ms-descargas
+    container_name: ms-descargas
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://db-mariadb:3306/durocplus_descargas_db?createDatabaseIfNotExist=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ""
+      MS_AUTH_URL: http://ms-registro:8082
+      MS_CATALOGO_URL: http://ms-catalogo:8081
+    depends_on:
+      db-mariadb:
+        condition: service_healthy
+      ms-registro:
+        condition: service_started
+      ms-catalogo:
+        condition: service_started
     networks:
       - red-fullstack
 
@@ -46,8 +119,41 @@ services:
     container_name: ms-suscripciones
     ports:
       - "8085:8085"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/suscripciones_db?createDatabaseIfNotExist=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ""
+      MS_USUARIO_URL: http://ms-registro:8082
+    depends_on:
+      db-mysql:
+        condition: service_healthy
+      ms-registro:
+        condition: service_started
     networks:
       - red-fullstack
+
+  ms-busqueda:
+    build: ./busqueda
+    container_name: ms-busqueda
+    ports:
+      - "8086:8086"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/busqueda_db?createDatabaseIfNotExist=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ""
+      MS_AUTH_URL: http://ms-registro:8082
+      MS_CATALOGO_URL: http://ms-catalogo:8081
+    depends_on:
+      db-mysql:
+        condition: service_healthy
+      ms-catalogo:
+        condition: service_started
+    networks:
+      - red-fullstack
+
+volumes:
+  mariadb_data:
+  mysql_data:
 
 networks:
   red-fullstack:
