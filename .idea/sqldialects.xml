@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/Catalogo/demo (3)/demo/src/main/resources/db/migration/V1__crear_tabla_generos.sql" dialect="MariaDB" />
+    <file url="file://$PROJECT_DIR$/Catalogo/demo (3)/demo/src/main/resources/db/migration/V2__crear_tabla_contenidos.sql" dialect="MariaDB" />
+    <file url="file://$PROJECT_DIR$/Catalogo/demo (3)/demo/src/main/resources/db/migration/V3__insertar_generos.sql" dialect="MariaDB" />
+    <file url="file://$PROJECT_DIR$/Catalogo/demo (3)/demo/src/main/resources/db/migration/V4__insertar_contenidos.sql" dialect="MariaDB" />
+    <file url="file://$PROJECT_DIR$/busqueda/busqueda/src/main/resources/db/migration/V1__crear_tabla_historialbusqueda.sql" dialect="MariaDB" />
+  </component>
+</project>

@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="proyecto_fullstack">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/RegistroUsuario(completo).zip!/" />
+      <root url="jar://$PROJECT_DIR$/Catalogo.zip!/" />
+      <root url="jar://$PROJECT_DIR$/busqueda.zip!/" />
+      <root url="jar://$PROJECT_DIR$/ms-reproduccion-descargas.zip!/" />
+      <root url="jar://$PROJECT_DIR$/ms-descargas.zip!/" />
+      <root url="jar://$PROJECT_DIR$/suscripciones.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
