@@ -1,54 +1,54 @@
-version: '3.8'
+  version: "3.8"
 
-services:
-  ms-busqueda:
-    build: ./busqueda
-    container_name: ms-busqueda
-    ports:
-      - "8086:8086"
-    networks:
-      - red-fullstack
+  services:
+    ms-busqueda:
+      build: "./ms-busqueda"
+      container_name: ms-busqueda
+      ports:
+        - "8086:8086"
+      networks:
+        - red-fullstack
 
-  ms-catalogo:
-    build: "./Catalogo"
-    container_name: ms-catalogo
-    ports:
-      - "8081:8081"
-    networks:
-      - red-fullstack
+    ms-catalogo:
+      build: "./Catalogo"
+      container_name: ms-catalogo
+      ports:
+        - "8081:8081"
+      networks:
+        - red-fullstack
 
-  ms-descargas:
-    build: ./ms-descargas
-    container_name: ms-descargas
-    ports:
-      - "8084:8084"
-    networks:
-      - red-fullstack
+    ms-descargas:
+      build: "./ms-descargas"
+      container_name: ms-descargas
+      ports:
+        - "8084:8084"
+      networks:
+        - red-fullstack
 
-  ms-reproduccion:
-    build: ./ms-reproduccion-descargas/ms-reproduccion-descargas
-    container_name: ms-reproduccion
-    ports:
-      - "8083:8083"
-    networks:
-      - red-fullstack
+    ms-reproduccion:
+      build: "./ms-reproduccion-descargas/ms-reproduccion-descargas"
+      container_name: ms-reproduccion
+      ports:
+        - "8083:8083"
+      networks:
+        - red-fullstack
 
-  ms-registro:
-    build: "./RegistroUsuario(completo)/RegistroUsuario(completo)"
-    container_name: ms-registro
-    ports:
-      - "8082:8082"
-    networks:
-      - red-fullstack
+    ms-registro:
+      build: "./RegistroUsuario(completo)/RegistroUsuario(completo)"
+      container_name: ms-registro
+      ports:
+        - "8082:8082"
+      networks:
+        - red-fullstack
 
-  ms-suscripciones:
-    build: ./suscripciones
-    container_name: ms-suscripciones
-    ports:
-      - "8085:8085"
-    networks:
-      - red-fullstack
+    ms-suscripciones:
+      build: "./ms-suscripciones"
+      container_name: ms-suscripciones
+      ports:
+        - "8085:8085"
+      networks:
+        - red-fullstack
 
-networks:
-  red-fullstack:
-    driver: bridge
+  networks:
+    red-fullstack:
+      driver: bridge
