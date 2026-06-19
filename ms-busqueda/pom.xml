@@ -15,8 +15,8 @@
 	<groupId>com.busqueda</groupId>
 	<artifactId>ms-busqueda</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>busqueda</name>
-	<description>Microservicio de busqueda para DurocPlus</description>
+	<name>ms-busqueda</name>
+	<description>Microservicio de búsqueda para DurocPlus</description>
 
 	<properties>
 		<java.version>21</java.version>
@@ -106,14 +106,14 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!-- JUNIT 5 / TESTING -->
+		<!-- JUNIT 5 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
-		<!-- TEST SECURITY -->
+		<!-- TESTS DE SEGURIDAD -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
@@ -136,12 +136,10 @@
 
 	<build>
 		<plugins>
-
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-
 		</plugins>
 	</build>
 

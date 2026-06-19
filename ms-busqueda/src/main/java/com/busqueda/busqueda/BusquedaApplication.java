@@ -11,5 +11,4 @@ public class BusquedaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BusquedaApplication.class, args);
 	}
-
 }
