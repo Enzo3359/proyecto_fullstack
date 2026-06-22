@@ -2,7 +2,7 @@ FROM eclipse-temurin:21-jdk-alpine
 
 WORKDIR /app
 
-COPY target/suscripciones-*.jar app.jar
+COPY target/ms-suscripciones-*.jar app.jar
 
 EXPOSE 8085
 
