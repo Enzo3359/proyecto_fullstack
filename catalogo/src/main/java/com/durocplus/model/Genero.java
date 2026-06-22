@@ -1,6 +1,7 @@
 package com.durocplus.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -30,5 +31,6 @@ public class Genero {
     private String descripcion;
 
     @OneToMany(mappedBy = "genero", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Contenido> contenidos;
 }

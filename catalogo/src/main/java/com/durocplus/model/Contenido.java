@@ -1,5 +1,6 @@
 package com.durocplus.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,5 +40,6 @@ public class Contenido {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "genero_id")
+    @JsonBackReference
     private Genero genero;
 }

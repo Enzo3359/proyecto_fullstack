@@ -40,7 +40,7 @@ public class ContenidoControllerTest {
     @BeforeEach
     void setUp() {
         contenidoDTO = new ContenidoResponseDTO();
-        contenidoDTO.setId(1L); // BUG ORIGINAL: setId(1) no compila porque el id es Long, no int
+        contenidoDTO.setId(1L);
         contenidoDTO.setTitulo("elias therian");
         contenidoDTO.setDescripcion("un therian");
         contenidoDTO.setTipo("SERIE");
@@ -75,7 +75,7 @@ public class ContenidoControllerTest {
 
     @Test
     public void testGetContenidoById() throws Exception {
-        // BUG ORIGINAL: el test llamaba a "/api/v1/contenidos" (la lista) en vez de "/api/v1/contenidos/{id}"
+
         when(contenidoservice.obtenerporid(1L)).thenReturn(Optional.of(contenidoDTO));
 
         mockMvc.perform(get("/api/v1/contenidos/{id}", 1L)
@@ -95,7 +95,7 @@ public class ContenidoControllerTest {
 
     @Test
     public void testGetDisponibles() throws Exception {
-        // BUG ORIGINAL: el test llamaba a "/api/v1/contenidos" en vez de "/api/v1/contenidos/disponibles"
+
         when(contenidoservice.obtenerdisponibles()).thenReturn(List.of(contenidoDTO));
 
         mockMvc.perform(get("/api/v1/contenidos/disponibles")
@@ -120,9 +120,7 @@ public class ContenidoControllerTest {
 
     @Test
     public void testCreateContenido() throws Exception {
-        // BUG ORIGINAL: el mock usaba any(Contenido.class), pero el service
-        // recibe un ContenidoRequestDTO; ademas nunca se ejecutaba mockMvc.perform(...),
-        // por lo que el test no verificaba absolutamente nada.
+
         when(contenidoservice.guardar(any(ContenidoRequestDTO.class))).thenReturn(contenidoDTO);
 
         mockMvc.perform(post("/api/v1/contenidos")
