@@ -14,7 +14,18 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+
+                        // Permite abrir Swagger sin iniciar sesión
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+
+                        // Protege los endpoints del microservicio
                         .requestMatchers("/api/busquedas/**").authenticated()
+
+                        // Permite las demás rutas
                         .anyRequest().permitAll()
                 )
                 .httpBasic(Customizer.withDefaults())
