@@ -1,0 +1,124 @@
+services:
+
+  # --- SERVIDOR DE DESCUBRIMIENTO ---
+  eureka-server:
+    build: ./eureka-server
+    container_name: eureka-server
+    environment:
+      EUREKA_INSTANCE_HOSTNAME: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - red-fullstack
+
+  # --- SERVICIOS QUE OCUPAN MYSQL ---
+  # Las bases de datos NO corren en Docker: deben estar levantadas en tu
+  # maquina (host) en el puerto 3306. "host.docker.internal" es como cada
+  # contenedor le dice "localhost de mi maquina" en Docker Desktop
+  # (Windows/Mac). Si tu MySQL/MariaDB local tiene password en el usuario
+  # root, agrega SPRING_DATASOURCE_PASSWORD aqui debajo de cada servicio.
+
+  ms-busqueda:
+    build: ./busqueda
+    container_name: ms-busqueda
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/busqueda_db?createDatabaseIfNotExist=true&serverTimezone=UTC
+      EUREKA_URI: http://eureka-server:8761/eureka/
+      MS_AUTH_URL: http://ms-registro:8082
+      MS_CATALOGO_URL: http://ms-catalogo:8081
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8086:8086"
+    networks:
+      - red-fullstack
+    depends_on:
+      - eureka-server
+
+  ms-suscripciones:
+    build: ./suscripciones
+    container_name: ms-suscripciones
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/suscripciones?createDatabaseIfNotExist=true&serverTimezone=UTC
+      EUREKA_URI: http://eureka-server:8761/eureka/
+      MS_USUARIO_URL: http://ms-registro:8082
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8085:8085"
+    networks:
+      - red-fullstack
+    depends_on:
+      - eureka-server
+
+  # --- SERVICIOS QUE OCUPAN MARIADB ---
+
+  ms-catalogo:
+    build: ./catalogo
+    container_name: ms-catalogo
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://host.docker.internal:3306/catalogo_db?createDatabaseIfNotExist=true
+      EUREKA_URI: http://eureka-server:8761/eureka/
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8081:8081"
+    networks:
+      - red-fullstack
+    depends_on:
+      - eureka-server
+
+  ms-descargas:
+    build: ./descargas
+    container_name: ms-descargas
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://host.docker.internal:3306/durocplus_descargas_db?createDatabaseIfNotExist=true&serverTimezone=UTC
+      EUREKA_URI: http://eureka-server:8761/eureka/
+      MS_AUTH_URL: http://ms-registro:8082
+      MS_CATALOGO_URL: http://ms-catalogo:8081
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8084:8084"
+    networks:
+      - red-fullstack
+    depends_on:
+      - eureka-server
+
+  ms-reproduccion:
+    build: ./reproduccion
+    container_name: ms-reproduccion
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://host.docker.internal:3306/durocplus_reproduccion_db?createDatabaseIfNotExist=true
+      EUREKA_URI: http://eureka-server:8761/eureka/
+      MS_AUTH_URL: http://ms-registro:8082
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8083:8083"
+    networks:
+      - red-fullstack
+    depends_on:
+      - eureka-server
+
+  ms-registro:
+    build: ./registro
+    container_name: ms-registro
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://host.docker.internal:3306/usuarios_db?createDatabaseIfNotExist=true
+      EUREKA_URI: http://eureka-server:8761/eureka/
+      MS_SUSCRIPCION_URL: http://ms-suscripciones:8085
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8082:8082"
+    networks:
+      - red-fullstack
+    depends_on:
+      - eureka-server
+
+# --- SECCIONES GLOBALES ---
+
+networks:
+  red-fullstack:
+    driver: bridge

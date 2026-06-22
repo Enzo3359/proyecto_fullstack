@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="ms-descargas" />
+        <module name="suscripciones" />
+        <module name="ms-reproduccion" />
+        <module name="busqueda" />
+        <module name="catalogo" />
+        <module name="registroUsuario" />
+        <module name="eureka-server" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="busqueda" options="-parameters" />
+      <module name="catalogo" options="-parameters" />
+      <module name="eureka-server" options="-parameters" />
+      <module name="ms-descargas" options="-parameters" />
+      <module name="ms-reproduccion" options="-parameters" />
+      <module name="registroUsuario" options="-parameters" />
+      <module name="suscripciones" options="-parameters" />
+    </option>
+  </component>
+</project>

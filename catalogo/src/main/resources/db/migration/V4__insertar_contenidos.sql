@@ -1,0 +1,58 @@
+INSERT INTO contenido
+(titulo, descripcion, tipo, duracion_min, anio_estreno,
+ clasificacion, disponible, genero_id)
+VALUES
+
+    ('John Wick',
+     'Un ex asesino regresa al mundo criminal buscando venganza tras perder lo que mas amaba.',
+     'PELICULA',
+     120,
+     2014,
+     '+16',
+     true,
+     1),
+
+    ('Interstellar',
+     'Un grupo de astronautas viaja por el espacio en busca de un nuevo hogar para la humanidad.',
+     'PELICULA',
+     169,
+     2014,
+     '+13',
+     true,
+     5),
+
+    ('El Conjuro',
+     'Investigadores paranormales enfrentan una aterradora presencia demoniaca en una casa familiar.',
+     'PELICULA',
+     112,
+     2013,
+     '+18',
+     true,
+     4),
+
+    ('The Office',
+     'Serie de comedia que muestra las situaciones absurdas y divertidas dentro de una oficina.',
+     'SERIE',
+     22,
+     2005,
+     '+13',
+     true,
+     2),
+
+    ('Breaking Bad',
+     'Un profesor de quimica comienza una peligrosa vida criminal para asegurar el futuro de su familia.',
+     'SERIE',
+     47,
+     2008,
+     '+18',
+     true,
+     3),
+
+    ('Nuestro Planeta',
+     'Documental visualmente impresionante sobre la naturaleza y la vida salvaje en la Tierra.',
+     'DOCUMENTAL',
+     50,
+     2019,
+     'ATP',
+     true,
+     6);

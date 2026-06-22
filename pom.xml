@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.durocplus</groupId>
+	<artifactId>proyecto-fullstack-reactor</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>proyecto-fullstack (agregador)</name>
+
+	<!--
+		Este POM NO es el padre de los microservicios (cada uno sigue usando
+		spring-boot-starter-parent como su propio <parent>). Es solo un
+		"aggregator/reactor POM": le permite a Maven encontrar y construir
+		los 7 proyectos de una sola pasada al ejecutar comandos desde la raiz,
+		por ejemplo:
+
+			mvn test
+			mvn clean install
+			mvn test -pl catalogo,registro -am   (solo esos dos modulos)
+
+		Si preferis, tambien podes seguir entrando a cada carpeta y correr
+		"mvn test" individualmente como cualquier proyecto Spring Boot suelto.
+	-->
+	<modules>
+		<module>eureka-server</module>
+		<module>catalogo</module>
+		<module>registro</module>
+		<module>busqueda</module>
+		<module>descargas</module>
+		<module>reproduccion</module>
+		<module>suscripciones</module>
+	</modules>
+
+</project>
