@@ -9,8 +9,7 @@ public class FeignConfig {
 
     @Bean
     Logger.Level feignLoggerLevel() {
-        // Esto le dice a Feign que imprima en la consola todo el detalle
-        // de las peticiones que le haces a tus amigos (URLs, Headers, respuestas)
+
         return Logger.Level.FULL;
     }
 }

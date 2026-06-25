@@ -48,7 +48,7 @@ public class DataLoader implements CommandLineRunner {
             String email = faker.internet().emailAddress();
 
             if (usuarioRepository.existsByEmail(email)) {
-                continue; // evita choques con el constraint unique de email
+                continue;
             }
 
             Usuario usuario = new Usuario(
