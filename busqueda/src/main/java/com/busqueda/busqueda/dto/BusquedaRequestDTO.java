@@ -1,9 +1,6 @@
 package com.busqueda.busqueda.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BusquedaRequestDTO {
+
+
+    @NotNull(message = "El ID de usuario es obligatorio")
+    @Positive
+    private Long usuarioId;
 
     @NotBlank(message = "El término de búsqueda no puede estar vacío")
     @Size(min = 2, max = 100, message = "El término debe tener entre 2 y 100 caracteres")

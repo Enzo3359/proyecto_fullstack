@@ -44,7 +44,8 @@ public class BusquedaControllerTest {
         historialDTO = new HistorialBusquedaResponseDTO(
                 1L, "matrix", "PELICULA", 5L, LocalDateTime.now(), 3);
 
-        busquedaRequestDTO = new BusquedaRequestDTO("matrix", "PELICULA", 5L);
+
+        busquedaRequestDTO = new BusquedaRequestDTO(1L, "matrix", "PELICULA", 5L);
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.durocplus.suscripciones.client;
 
+import com.durocplus.suscripciones.dto.UsuarioResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,5 +9,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface UsuarioClient {
 
     @GetMapping("/api/v1/auth/usuarios/{id}")
-    Object obtenerUsuario(@PathVariable Long id);
+    UsuarioResponseDTO obtenerUsuario(@PathVariable Long id);
 }

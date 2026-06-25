@@ -1,5 +1,6 @@
 package com.busqueda.busqueda.service;
 
+import com.busqueda.busqueda.client.AuthClient;
 import com.busqueda.busqueda.client.CatalogoClient;
 import com.busqueda.busqueda.dto.BusquedaRequestDTO;
 import com.busqueda.busqueda.dto.BusquedaResponseDTO;
@@ -19,6 +20,7 @@ public class BusquedaService {
 
     private final HistorialBusquedaRepository historialRepository;
     private final CatalogoClient catalogoClient;
+    private final AuthClient authClient;
 
 
     public BusquedaResponseDTO buscar(BusquedaRequestDTO dto) {

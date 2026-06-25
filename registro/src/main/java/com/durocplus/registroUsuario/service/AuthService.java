@@ -75,12 +75,21 @@ public class AuthService {
                 .orElseThrow(() -> new RecursoNoEncontradoException(
                         "Usuario no encontrado: " + usuarioId));
         try {
-            return suscripcionClient.obtenerSuscripcionPorUsuario(usuarioId);
+            List<SuscripcionResponseDTO> lista =
+                    suscripcionClient.obtenerSuscripcionPorUsuario(usuarioId);
+
+            if (lista == null || lista.isEmpty()) {
+                throw new RecursoNoEncontradoException(
+                        "El usuario " + usuarioId + " no tiene suscripción activa");
+            }
+            return lista.get(0);
+
         } catch (FeignException.NotFound e) {
             throw new RecursoNoEncontradoException(
                     "El usuario " + usuarioId + " no tiene suscripción activa");
         } catch (FeignException e) {
-            throw new RuntimeException("No se puede conectar con ms-suscripcion: " + e.getMessage());
+            throw new RuntimeException(
+                    "No se puede conectar con ms-suscripcion: " + e.getMessage());
         }
     }
 
@@ -107,7 +116,4 @@ public class AuthService {
         log.warn("Eliminando usuario id {}", id);
         usuarioRepository.deleteById(id);
     }
-
-
-
 }

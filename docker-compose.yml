@@ -5,7 +5,7 @@ networks:
     driver: bridge
 
 services:
-  # --- SERVIDOR DE DESCUBRIMIENTO ---
+
   eureka-server:
     build: ./eureka-server
     container_name: eureka-server
@@ -14,7 +14,7 @@ services:
     networks:
       - red-fullstack
 
-  # --- MICROSERVICIO: CATALOGO + SU DB ---
+
   db-catalogo:
     image: mariadb:10.6
     container_name: db-catalogo
@@ -38,7 +38,7 @@ services:
       - eureka-server
       - db-catalogo
 
-  # --- MICROSERVICIO: REGISTRO + SU DB ---
+
   db-registro:
     image: mariadb:10.6
     container_name: db-registro
@@ -63,7 +63,7 @@ services:
       - eureka-server
       - db-registro
 
-  # --- MICROSERVICIO: REPRODUCCION + SU DB ---
+
   db-reproduccion:
     image: mysql:8.0
     container_name: db-reproduccion
@@ -88,7 +88,7 @@ services:
       - eureka-server
       - db-reproduccion
 
-  # --- MICROSERVICIO: DESCARGAS + SU DB ---
+
   db-descargas:
     image: mariadb:10.6
     container_name: db-descargas
@@ -114,7 +114,7 @@ services:
       - eureka-server
       - db-descargas
 
-  # --- MICROSERVICIO: SUSCRIPCIONES + SU DB ---
+
   db-suscripciones:
     image: mysql:8.0
     container_name: db-suscripciones
@@ -138,7 +138,7 @@ services:
       - eureka-server
       - db-suscripciones
 
-  # --- MICROSERVICIO: BUSQUEDA + SU DB ---
+
   db-busqueda:
     image: mysql:8.0
     container_name: db-busqueda

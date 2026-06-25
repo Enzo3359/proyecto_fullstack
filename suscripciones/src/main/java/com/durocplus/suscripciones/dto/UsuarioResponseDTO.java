@@ -1,4 +1,4 @@
-package ms_descargas.dto;
+package com.durocplus.suscripciones.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

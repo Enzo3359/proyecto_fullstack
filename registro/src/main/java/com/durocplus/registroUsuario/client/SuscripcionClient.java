@@ -4,10 +4,11 @@ import com.durocplus.registroUsuario.dto.SuscripcionResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import java.util.List;
 
 @FeignClient(name = "ms-suscripcion", url = "${ms.suscripcion.url}")
 public interface SuscripcionClient {
 
     @GetMapping("/api/suscripciones/usuario/{usuarioId}")
-    SuscripcionResponseDTO obtenerSuscripcionPorUsuario(@PathVariable Long usuarioId);
+    List<SuscripcionResponseDTO> obtenerSuscripcionPorUsuario(@PathVariable Long usuarioId);
 }
