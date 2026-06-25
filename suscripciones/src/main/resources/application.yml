@@ -3,7 +3,7 @@ spring:
     name: ms-suscripciones
 
   datasource:
-    url: jdbc:mysql://localhost:3306/suscripciones?createDatabaseIfNotExist=true&serverTimezone=UTC
+    url: jdbc:mysql://mariadb:3306/suscripciones?createDatabaseIfNotExist=true&serverTimezone=UTC
     username: root
     password: ""
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -23,14 +23,15 @@ server:
 
 ms:
   usuario:
-    url: http://localhost:8082
+    url: http://ms-registro:8082
 
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
+      defaultZone: http://eureka-server:8761/eureka/
     register-with-eureka: true
     fetch-registry: true
+
   instance:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
