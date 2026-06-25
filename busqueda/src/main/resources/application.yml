@@ -3,9 +3,9 @@ spring:
     name: ms-busqueda
 
   datasource:
-    url: jdbc:mysql://mariadb:3306/busqueda_db?createDatabaseIfNotExist=true&serverTimezone=UTC
-    username: root
-    password: ""
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/busqueda_db?createDatabaseIfNotExist=true&serverTimezone=UTC}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   flyway:
@@ -17,14 +17,14 @@ server:
 
 ms:
   auth:
-    url: http://ms-registro:8082
+    url: ${MS_AUTH_URL:http://localhost:8082}
   catalogo:
-    url: http://ms-catalogo:8081
+    url: ${MS_CATALOGO_URL:http://localhost:8081}
 
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka-server:8761/eureka/
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka/}
     register-with-eureka: true
     fetch-registry: true
 
@@ -32,3 +32,10 @@ eureka:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"

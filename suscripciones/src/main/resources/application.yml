@@ -3,9 +3,9 @@ spring:
     name: ms-suscripciones
 
   datasource:
-    url: jdbc:mysql://mariadb:3306/suscripciones?createDatabaseIfNotExist=true&serverTimezone=UTC
-    username: root
-    password: ""
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/suscripciones?createDatabaseIfNotExist=true&serverTimezone=UTC}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -36,3 +36,10 @@ eureka:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
