@@ -5,6 +5,7 @@ networks:
     driver: bridge
 
 services:
+  # --- SERVIDOR DE DESCUBRIMIENTO ---
   eureka-server:
     build: ./eureka-server
     container_name: eureka-server
@@ -13,98 +14,150 @@ services:
     networks:
       - red-fullstack
 
+  # --- MICROSERVICIO: CATALOGO + SU DB ---
+  db-catalogo:
+    image: mariadb:10.6
+    container_name: db-catalogo
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "yes"
+      MARIADB_DATABASE: durocplus_catalogo_db
+    networks:
+      - red-fullstack
+
   ms-catalogo:
     build: ./catalogo
     container_name: ms-catalogo
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mariadb://host.docker.internal:3306/durocplus_catalogo_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_URL: jdbc:mariadb://db-catalogo:3306/durocplus_catalogo_db
       EUREKA_URI: http://eureka-server:8761/eureka/
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     ports:
       - "8081:8081"
     networks:
       - red-fullstack
     depends_on:
       - eureka-server
+      - db-catalogo
+
+  # --- MICROSERVICIO: REGISTRO + SU DB ---
+  db-registro:
+    image: mariadb:10.6
+    container_name: db-registro
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "yes"
+      MARIADB_DATABASE: usuarios_db
+    networks:
+      - red-fullstack
 
   ms-registro:
     build: ./registro
     container_name: ms-registro
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mariadb://host.docker.internal:3306/usuarios_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_URL: jdbc:mariadb://db-registro:3306/usuarios_db
       EUREKA_URI: http://eureka-server:8761/eureka/
       MS_SUSCRIPCIONES_URL: http://ms-suscripciones:8085
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     ports:
       - "8082:8082"
     networks:
       - red-fullstack
     depends_on:
       - eureka-server
+      - db-registro
+
+  # --- MICROSERVICIO: REPRODUCCION + SU DB ---
+  db-reproduccion:
+    image: mysql:8.0
+    container_name: db-reproduccion
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: durocplus_reproduccion_db
+    networks:
+      - red-fullstack
 
   ms-reproduccion:
     build: ./reproduccion
     container_name: ms-reproduccion
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/durocplus_reproduccion_db?createDatabaseIfNotExist=true&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-reproduccion:3306/durocplus_reproduccion_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
       EUREKA_URI: http://eureka-server:8761/eureka/
       MS_AUTH_URL: http://ms-registro:8082
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     ports:
       - "8083:8083"
     networks:
       - red-fullstack
     depends_on:
       - eureka-server
+      - db-reproduccion
+
+  # --- MICROSERVICIO: DESCARGAS + SU DB ---
+  db-descargas:
+    image: mariadb:10.6
+    container_name: db-descargas
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "yes"
+      MARIADB_DATABASE: durocplus_descargas_db
+    networks:
+      - red-fullstack
 
   ms-descargas:
     build: ./descargas
     container_name: ms-descargas
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mariadb://host.docker.internal:3306/durocplus_descargas_db?createDatabaseIfNotExist=true&serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:mariadb://db-descargas:3306/durocplus_descargas_db?serverTimezone=UTC
       EUREKA_URI: http://eureka-server:8761/eureka/
       MS_AUTH_URL: http://ms-registro:8082
       MS_CATALOGO_URL: http://ms-catalogo:8081
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     ports:
       - "8084:8084"
     networks:
       - red-fullstack
     depends_on:
       - eureka-server
+      - db-descargas
+
+  # --- MICROSERVICIO: SUSCRIPCIONES + SU DB ---
+  db-suscripciones:
+    image: mysql:8.0
+    container_name: db-suscripciones
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: durocplus_suscripciones_db
+    networks:
+      - red-fullstack
 
   ms-suscripciones:
     build: ./suscripciones
     container_name: ms-suscripciones
     environment:
-      # Corregido a mysql para evitar el error del Driver de Java
-      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/durocplus_suscripciones_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-suscripciones:3306/durocplus_suscripciones_db
       EUREKA_URI: http://eureka-server:8761/eureka/
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     ports:
       - "8085:8085"
     networks:
       - red-fullstack
     depends_on:
       - eureka-server
+      - db-suscripciones
+
+  # --- MICROSERVICIO: BUSQUEDA + SU DB ---
+  db-busqueda:
+    image: mysql:8.0
+    container_name: db-busqueda
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: durocplus_busqueda_db
+    networks:
+      - red-fullstack
 
   ms-busqueda:
     build: ./busqueda
     container_name: ms-busqueda
     environment:
-
-      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/durocplus_busqueda_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-busqueda:3306/durocplus_busqueda_db
       EUREKA_URI: http://eureka-server:8761/eureka/
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     ports:
       - "8086:8086"
     networks:
       - red-fullstack
     depends_on:
       - eureka-server
+      - db-busqueda
